@@ -1,0 +1,50 @@
+{
+  "name": "@dle.dev/cf-image-client",
+  "private": false,
+  "version": "0.0.0-SNAPSHOT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/client.js",
+      "require": "./dist/client.umd.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^20.9.3",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.6.3",
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "3.0.3",
+    "eslint-scope": "^7.2.2",
+    "eslint-visitor-keys": "^3.4.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polaroidkidd/cf-image-client.git"
+  },
+  "keywords": [
+    "cloudflare",
+    "worker",
+    "image"
+  ],
+  "description": "A Cloudflare Worker compatible image api client",
+  "author": "Daniel L. Einars",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/polaroidkidd/cf-image-client/issues"
+  },
+  "homepage": "https://github.com/polaroidkidd/cf-image-client#readme"
+}
