@@ -1,7 +1,7 @@
 {
 	"name": "js-cloudflare",
 	"private": false,
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"type": "module",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.js",
@@ -30,7 +30,7 @@
 		"eslint-visitor-keys": "^3.4.3",
 		"husky": "^8.0.3",
 		"lint-staged": "^15.1.0",
-		"prettier": "3.0.3",
+		"prettier": "^3.1.1",
 		"rimraf": "^5.0.5",
 		"typescript": "5.2.2",
 		"vite": "^5.0.0",
