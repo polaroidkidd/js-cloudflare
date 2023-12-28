@@ -11,6 +11,8 @@
 
 - [List images V2](https://developers.cloudflare.com/api/operations/cloudflare-images-list-images)
 - [Image Details](https://developers.cloudflare.com/api/operations/cloudflare-images-image-details)
+- [Post Image](https://developers.cloudflare.com/api/operations/cloudflare-images-upload-an-image-via-url)
+- [Delete Image](https://developers.cloudflare.com/api/operations/cloudflare-images-delete-image)
 
 ## Configuration
 
