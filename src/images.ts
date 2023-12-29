@@ -119,7 +119,7 @@ export class Images extends BaseClient {
 
 		form.append('file', new Blob([image]));
 		form.append('id', publicPath);
-		return fetch(this.#IMAGE_ENDPOINT_V2, {
+		return fetch(this.#IMAGE_ENDPOINT_V1, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${Images.BEARER_TOKEN}`
