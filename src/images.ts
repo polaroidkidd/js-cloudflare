@@ -34,9 +34,7 @@ type Meta = {
 	key: string;
 };
 
-type ImageClientOptions = BaseClientOptions & {
-	rootPath: string | undefined;
-};
+type ImageClientOptions = BaseClientOptions;
 
 export type CloudflareImageApiResponseGetImageById = Promise<CloudflareImageApiResponse<Image>>;
 
@@ -48,16 +46,12 @@ export type CloudflareImageApiResponseDelete = Promise<
 	CloudflareImageApiResponse<Record<string, never>>
 >;
 export class Images extends BaseClient {
-	#ROOT_PATH: string;
 	#IMAGE_ENDPOINT_V1: string;
 	#IMAGE_ENDPOINT_V2: string;
 
-	constructor({ accountIdentifier, bearerToken, rootPath = '' }: ImageClientOptions) {
+	constructor({ accountIdentifier, bearerToken }: ImageClientOptions) {
 		super({ accountIdentifier, bearerToken });
-		if (rootPath && rootPath.startsWith('/')) {
-			throw new Error("rootPath cannot start with a '/'");
-		}
-		this.#ROOT_PATH = rootPath;
+
 		this.#IMAGE_ENDPOINT_V1 = `${BaseClient.BASE_ENDPOINT}/images/v1`;
 		this.#IMAGE_ENDPOINT_V2 = `${BaseClient.BASE_ENDPOINT}/images/v2`;
 	}
@@ -81,7 +75,6 @@ export class Images extends BaseClient {
 
 	/**
 	 * Retrieves a list of images from the Cloudflare API.
-	 * If a rootPath is provided during instantiation, only images with an id starting with the rootPath will be returned.
 	 * @returns A Promise that resolves to a CloudflareImageApiResponse containing an array of Image objects.
 	 */
 	async listImages(): CloudflareImageApiResponseListImages {
@@ -90,21 +83,9 @@ export class Images extends BaseClient {
 				Authorization: `Bearer ${Images.BEARER_TOKEN}`
 			},
 			method: 'GET'
-		})
-			.then((response) => {
-				return response.json() as CloudflareImageApiResponseListImages;
-			})
-			.then((data) => {
-				return {
-					...data,
-					result: {
-						...data.result,
-						images: data.result.images.filter((image) =>
-							image.id.startsWith(this.#ROOT_PATH as string)
-						)
-					}
-				};
-			});
+		}).then((response) => {
+			return response.json() as CloudflareImageApiResponseListImages;
+		});
 	}
 
 	/**
@@ -114,11 +95,14 @@ export class Images extends BaseClient {
 	 * @returns A promise that resolves to the API response containing the uploaded image information.
 	 */
 	async postImage(image: File, path: string): CloudflareImageApiResponsePost {
+		if (path.startsWith('/')) {
+			throw new Error("path cannot start with a '/'");
+		}
+
 		const form = new FormData();
-		const publicPath = path.startsWith(this.#ROOT_PATH) ? path.slice(this.#ROOT_PATH.length) : path;
 
 		form.append('file', new Blob([image]));
-		form.append('id', publicPath);
+		form.append('id', path);
 		return fetch(this.#IMAGE_ENDPOINT_V1, {
 			method: 'POST',
 			headers: {
